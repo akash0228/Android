@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:itemIconTint="@null">
+    <item android:id="@+id/nav_fav"
+        android:title="Favourite"
+        android:icon="@drawable/baseline_assistant_24"
+        />
+    <item android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/baseline_breakfast_dining_24"
+        app:itemIconTint="@null">
+    </item>
+    <item android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/baseline_account_circle_24"
+        />
+</menu>
