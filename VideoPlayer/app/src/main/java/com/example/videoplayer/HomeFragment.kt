@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -56,6 +57,12 @@ class HomeFragment : Fragment() {
         })
 
         binding.rv.adapter=adapter
+
+        val childFm=childFragmentManager
+        val childft=childFm.beginTransaction()
+
+        childft.add(binding.searchContainer.id,SearchFragment())
+        childft.commit()
 
         val addButton:FloatingActionButton=binding.addButton
 
@@ -151,6 +158,18 @@ class HomeFragment : Fragment() {
         val view = binding.root
 
         return view
+    }
+
+    fun filterVideos(query:String){
+        if (!query.isBlank()){
+            val filteredVideos=listVideo.filter {Video -> Video.title.contains(query,ignoreCase = true)  }
+            adapter = RecyclerVideoAdapter(requireContext(), filteredVideos,videoViewModel)
+            binding.rv.adapter = adapter
+        }
+        else{
+            adapter = RecyclerVideoAdapter(requireContext(), listVideo,videoViewModel)
+            binding.rv.adapter = adapter
+        }
     }
 
     companion object {

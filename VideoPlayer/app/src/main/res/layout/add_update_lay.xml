@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="350dp"
     android:layout_height="wrap_content"
-    android:background="#F49898"
+    android:background="@color/first"
     android:paddingLeft="21dp"
     android:paddingRight="21dp"
     android:paddingBottom="11dp"
@@ -55,7 +55,7 @@
         android:id="@+id/btnAction"
         android:backgroundTint="#fff"
         android:layout_marginTop="11dp"
-        android:textColor="#F49898"
+        android:textColor="@color/first"
         android:layout_gravity="end"/>
 
 </LinearLayout>

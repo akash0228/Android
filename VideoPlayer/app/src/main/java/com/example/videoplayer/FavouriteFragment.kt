@@ -45,6 +45,12 @@ class FavouriteFragment : Fragment() {
             binding.rv.adapter = adapter
         })
 
+        val childFm=childFragmentManager
+        val childft=childFm.beginTransaction()
+
+        childft.add(binding.searchContainer.id,SearchFragment())
+        childft.commit()
+
         binding.rv.adapter=adapter
 
         val itemTouchHelper= ItemTouchHelper(
@@ -113,6 +119,18 @@ class FavouriteFragment : Fragment() {
 
         return binding.root
 
+    }
+
+    fun filterVideos(query:String){
+        if (!query.isBlank()){
+            val filteredVideos=listVideo.filter {Video -> Video.title.contains(query,ignoreCase = true)  }
+            adapter = RecyclerVideoAdapter(requireContext(), filteredVideos,videoViewModel)
+            binding.rv.adapter = adapter
+        }
+        else{
+            adapter = RecyclerVideoAdapter(requireContext(), listVideo,videoViewModel)
+            binding.rv.adapter = adapter
+        }
     }
 
     companion object {

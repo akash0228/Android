@@ -1,6 +1,8 @@
 package com.example.videoplayer
 
 import android.os.Bundle
+import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,17 +24,19 @@ class MainActivity : AppCompatActivity() {
 
         var bnView:BottomNavigationView=findViewById(R.id.bnView)
 
+        var flag=0
         bnView.setOnItemSelectedListener {
             val id=it.itemId
             when(id){
                 R.id.nav_fav -> {
-                    loadFrag(FavouriteFragment(),0)
+                    loadFrag(FavouriteFragment(),flag)
                 }
                 R.id.nav_profile -> {
-                    loadFrag(ProfileFragment(),0)
+                    loadFrag(ProfileFragment(),flag)
                 }
                 else -> {
-                    loadFrag(HomeFragment(),1)
+                    loadFrag(HomeFragment(),flag)
+                    flag=1
                 }
             }
             true
@@ -45,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val fm:FragmentManager=supportFragmentManager
         val ft=fm.beginTransaction()
 
-        if(flag==1){
+        if(flag==0){
             ft.add(R.id.container,frag)
         }
         else{
@@ -53,4 +57,5 @@ class MainActivity : AppCompatActivity() {
         }
         ft.commit()
     }
+
 }

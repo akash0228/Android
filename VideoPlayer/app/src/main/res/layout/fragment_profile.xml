@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="20dp"
-        android:background="@color/design_default_color_primary"
+        android:background="@color/first"
         android:layout_weight="4">
 
         <LinearLayout
@@ -53,7 +53,7 @@
                 android:textFontWeight="100"
                 android:text="Software Engineer"
                 android:layout_gravity="center"
-                android:textColor="@color/white"/>
+                android:textColor="@color/second"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:textFontWeight="100"
                 android:text="Akash@gmail.com"
                 android:layout_gravity="center"
-                android:textColor="@color/white"/>
+                android:textColor="@color/second"/>
         </LinearLayout>
 
         <LinearLayout
@@ -97,7 +97,7 @@
                 android:textFontWeight="100"
                 android:text="+91 9080706050"
                 android:layout_gravity="center"
-                android:textColor="@color/white"/>
+                android:textColor="@color/second"/>
         </LinearLayout>
 
         <LinearLayout
@@ -118,7 +118,7 @@
                 android:textFontWeight="100"
                 android:text="3rd Cross Street, Kaverrappa Layout"
                 android:layout_gravity="center"
-                android:textColor="@color/white"/>
+                android:textColor="@color/second"/>
         </LinearLayout>
     </LinearLayout>
 

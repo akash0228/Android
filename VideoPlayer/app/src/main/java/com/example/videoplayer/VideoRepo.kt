@@ -1,6 +1,8 @@
 package com.example.videoplayer
 
 import android.content.Context
+import androidx.compose.ui.text.toLowerCase
+import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -32,4 +34,10 @@ class VideoRepo(context:Context) {
             videoDao.getAllVideos()
         }
     }
+
+//    suspend fun searchVideo(query:String){
+//        withContext(Dispatchers.IO){
+//            videoList=videoList.map { videos -> videos.filter { Video -> Video.title.toLowerCase().contains(query.toLowerCase()) } }
+//        }
+//    }
 }

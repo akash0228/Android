@@ -3,18 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FavouriteFragment">
+    tools:context=".RecommendFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/searchContainer"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:layout_marginTop="40dp"/>
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>
