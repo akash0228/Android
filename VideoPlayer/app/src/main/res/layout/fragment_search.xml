@@ -17,7 +17,7 @@
         android:layout_weight="4"
         android:hint="Search Movies, Videos..."
         android:textStyle="italic"
-        android:textColor="@color/second"
+        android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:background="@color/second"/>
 

@@ -12,7 +12,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.videoplayer.databinding.FragmentHomeBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -54,6 +52,10 @@ class HomeFragment : Fragment() {
             listVideo = videos
             adapter = RecyclerVideoAdapter(requireContext(), listVideo,videoViewModel)
             binding.rv.adapter = adapter
+
+            //recommend
+            val pagerAdapter = RecommendAdapter(requireContext(),listVideo)
+            binding.pagerRecommend.adapter=pagerAdapter
         })
 
         binding.rv.adapter=adapter
@@ -154,11 +156,16 @@ class HomeFragment : Fragment() {
             }
         ).attachToRecyclerView(binding.rv)
 
+        binding.pagerRecommend.setOnClickListener {
+
+        }
 
         val view = binding.root
 
         return view
     }
+
+
 
     fun filterVideos(query:String){
         if (!query.isBlank()){

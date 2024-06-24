@@ -1,12 +1,19 @@
 package com.example.videoplayer
 
+import android.app.Activity
+import android.app.PictureInPictureParams
 import android.content.ComponentName
 import android.content.Intent
+import android.content.res.Configuration
+import android.graphics.Rect
 import androidx.media3.session.MediaSession
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Rational
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
@@ -18,15 +25,17 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
+import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 
 class PlayerActivity : AppCompatActivity()  {
-    private lateinit var player:ExoPlayer
     private lateinit var playerView: PlayerView
     private lateinit var mediaItem: MediaItem
     private lateinit var mediaControllerFuture:ListenableFuture<MediaController>
+    private var isPipMode=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,6 +45,7 @@ class PlayerActivity : AppCompatActivity()  {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
 
         val title:String=intent.getStringExtra("videoTitle").toString()
         val url:String=intent.getStringExtra("videoURL").toString()
@@ -50,6 +60,8 @@ class PlayerActivity : AppCompatActivity()  {
 
 
         playerView=findViewById(R.id.playerView)
+        playerView.resizeMode=AspectRatioFrameLayout.RESIZE_MODE_FIT
+
 
         val videoUri= Uri.parse(url)
 
@@ -79,8 +91,48 @@ class PlayerActivity : AppCompatActivity()  {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(this,MainActivity::class.java))
+        if (!isPipMode) {
+            createPIPMode()
+            isPipMode = true
+        } else {
+            super.onBackPressed()
+        }
+//        startActivity(Intent(this,MainActivity::class.java))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration
+    ) {
+        if (newConfig!=null){
+            isPipMode = !isInPictureInPictureMode
+        }
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        createPIPMode()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createPIPMode() {
+        startPictureInPictureWithRatio(this)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun startPictureInPictureWithRatio(activity: Activity) {
+        activity.enterPictureInPictureMode(
+            PictureInPictureParams.Builder()
+                .setAspectRatio(Rational(16, 9))
+                .build()
+        )
+    }
+
+    override fun onStop() {
+        super.onStop()
         MediaController.releaseFuture(mediaControllerFuture)
     }
 

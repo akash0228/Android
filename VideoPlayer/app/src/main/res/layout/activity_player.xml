@@ -23,8 +23,8 @@
             app:cardUseCompatPadding="true">
             <androidx.media3.ui.PlayerView
                 android:id="@+id/playerView"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:outlineProvider="background"
                 />
         </androidx.cardview.widget.CardView>
