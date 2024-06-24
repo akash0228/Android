@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/first"
     android:orientation="vertical"
-    tools:context=".PlayerActivity">
+    tools:context=".ui.views.PlayerActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

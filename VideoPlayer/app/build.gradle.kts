@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
+
 
 android {
     namespace = "com.example.videoplayer"
@@ -39,6 +41,9 @@ android {
         jvmTarget = "1.8"
     }
 }
+kapt {
+    correctErrorTypes = true
+}
 
 dependencies {
     val lifecycle_version = "2.8.1"
@@ -71,9 +76,15 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     //splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
-        implementation("androidx.core:core-splashscreen:1.0.0")
-    
+    //dager hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    //viewModel delegation
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+
 
 
 
