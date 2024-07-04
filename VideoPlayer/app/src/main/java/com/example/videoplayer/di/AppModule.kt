@@ -24,12 +24,4 @@ object AppModule {
             VideoDatabase::class.java,"video_database").build()
     }
 
-    @Provides
-    @Singleton
-    fun provideVideoRepo( videoDatabase:VideoDatabase):VideoRepo{
-        return VideoRepo(videoDatabase)
-    }
-
-
-
 }
