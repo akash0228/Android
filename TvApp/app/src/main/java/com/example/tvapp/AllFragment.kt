@@ -27,11 +27,6 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
     var lastCol=0
 
 
-    //first row
-    val listShow1= listOf(Show("Movie 1","This is Movie 1 Description","Romance",2020,"1h 30m"),Show("Movie 2","This is Movie 2 Description","Romance",2021,"1h 35m"),Show("Movie 3","This is Movie 3 Description","Action",2005,"1h 40m"),Show("Movie 4","This is Movie 4 Description","Thriller",2023,"2h 30m"),Show("Movie 5","This is Movie 5 Description","Horror",2018,"1h 23m"))
-    //second row
-    val listShow2= listOf(Show("Movie 1","This is Movie 1 Description","Romance",2020,"1h 30m"),Show("Movie 2","This is Movie 2 Description","Romance",2021,"1h 35m"),Show("Movie 3","This is Movie 3 Description","Action",2005,"1h 40m"),Show("Movie 4","This is Movie 4 Description","Thriller",2023,"2h 30m"),Show("Movie 5","This is Movie 5 Description","Horror",2018,"1h 23m"))
-
     val allFragInterface =object : AllFragInterface {
         override fun onKeyUp(childPos: Int,rowPosition: Int) {
             if (rowPosition==0){
@@ -65,6 +60,7 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainAdapter=MainRvAdapter(mutableListOf(),allFragInterface)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -81,11 +77,16 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
         binding=FragmentAllBinding.inflate(inflater,container,false)
         showRowViewModel=ViewModelProvider(this,ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ShowRowViewModel::class.java)
 
-
-        mainAdapter= MainRvAdapter(listOf(ShowRow("Top Picks",RowRvAdapter(listShow1)),ShowRow("Trending",RowRvAdapter(listShow2))),allFragInterface)
+        showRowViewModel.getAllshowRows().observe(viewLifecycleOwner) { showRows ->
+            listShowRow = showRows
+            mainAdapter = MainRvAdapter(listShowRow, allFragInterface)
+            binding.allRv.adapter = mainAdapter
+        }
 
         binding.allRv.layoutManager= LinearLayoutManager(requireContext())
         binding.allRv.setHasFixedSize(true)
+
+        binding.allRv.adapter=mainAdapter
 
         return binding.root
     }
@@ -93,17 +94,16 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("TAG", "View Created ")
-        binding.allRv.adapter=mainAdapter
     }
 
 
     fun focus(childPos:Int,rowPos:Int){
-           if (binding.allRv.size>rowPos){
-               val holder=binding.allRv.findViewHolderForAdapterPosition(rowPos) as MainRvAdapter.ViewHolder
-               holder.focus(childPos)
-               lastRow=rowPos
-               lastCol=childPos
-           }
+        if (binding.allRv.size>rowPos){
+            val holder=binding.allRv.findViewHolderForAdapterPosition(rowPos) as MainRvAdapter.ViewHolder
+            holder.focus(childPos)
+            lastRow=rowPos
+            lastCol=childPos
+        }
     }
 
     fun restoreFocus(){

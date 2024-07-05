@@ -33,7 +33,7 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
         }
 
         override fun onKeyRight(childPos:Int,rowPosition: Int) {
-            if (childPos==listShowRow.get(rowPosition).rowRvAdapter.listShow.size-1){
+            if (childPos==listShowRow.get(rowPosition).listShow.size-1){
                 return
             }
             else{
@@ -51,7 +51,7 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
         }
 
         override fun onKeyCenter(childPos:Int,rowPosition: Int) {
-            val show=listShowRow.get(rowPosition).rowRvAdapter.listShow.get(childPos)
+            val show=listShowRow.get(rowPosition).listShow.get(childPos)
             parentInterface.onKeyCenter(show)
         }
 
@@ -81,9 +81,10 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
     }
 
     override fun onBindViewHolder(holder: MainRvAdapter.ViewHolder, position: Int) {
-        listShowRow.get(position).rowRvAdapter.setParentInterface(mainRvInterface)
-        listShowRow.get(position).rowRvAdapter.rowPosition=position
-        holder.rowRv.adapter=listShowRow.get(position).rowRvAdapter
+        var rowRvAdapter=RowRvAdapter(listShowRow.get(position).listShow)
+        rowRvAdapter.setParentInterface(mainRvInterface)
+        rowRvAdapter.rowPosition=position
+        holder.rowRv.adapter=rowRvAdapter
         holder.rowRv.layoutManager=LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL,false)
         holder.rowRv.setHasFixedSize(true)
         holder.posterTitle.text=listShowRow.get(position).header
@@ -96,7 +97,6 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
     }
 
     override fun getItemCount(): Int {
-        Log.d("TAG", "getItemCount: ${listShowRow.get(0).rowRvAdapter.listShow.get(0).title}")
         return listShowRow.size
     }
 

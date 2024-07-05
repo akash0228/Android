@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.size
+import androidx.lifecycle.ViewModelProvider
 import com.example.tvapp.databinding.FragmentRecentBinding
 
 class RecentFragment(val parentInterface: MainActivity.MainInterface) : Fragment() {
     lateinit var binding:FragmentRecentBinding
     var lastPos=0
-    val listShow1= listOf(Show("Movie 1","This is Movie 1 Description","Romance",2020,"1h 30m"),Show("Movie 2","This is Movie 2 Description","Romance",2021,"1h 35m"),Show("Movie 3","This is Movie 3 Description","Action",2005,"1h 40m"),Show("Movie 4","This is Movie 4 Description","Thriller",2023,"2h 30m"),Show("Movie 5","This is Movie 5 Description","Horror",2018,"1h 23m"))
+    lateinit var listRecentShow:List<Show>
+    lateinit var gridViewAdapter:RecentGvAdapter
+    lateinit var showRowViewModel:ShowRowViewModel
 
     val recentFragInterface=object : RecentFragInterface{
         override fun onKeyUp(pos: Int) {
@@ -52,12 +55,15 @@ class RecentFragment(val parentInterface: MainActivity.MainInterface) : Fragment
         }
 
         override fun onKeyCenter(pos: Int) {
-            parentInterface.onKeyCenter(listShow1.get(pos),1)
+            parentInterface.onKeyCenter(listRecentShow.get(pos),1)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        gridViewAdapter=RecentGvAdapter(requireContext(), mutableListOf(),recentFragInterface)
+        showRowViewModel= ViewModelProvider(this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ShowRowViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -65,7 +71,15 @@ class RecentFragment(val parentInterface: MainActivity.MainInterface) : Fragment
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentRecentBinding.inflate(inflater,container,false)
-        val gridViewAdapter=RecentGvAdapter(requireContext(),listShow1,recentFragInterface)
+
+        showRowViewModel.getAllshowRows().observe(viewLifecycleOwner) { showRows ->
+            if (showRows.size>0){
+                listRecentShow = showRows.get(0).listShow
+                gridViewAdapter = RecentGvAdapter(requireContext(),listRecentShow, recentFragInterface)
+                binding.recentGrid.adapter = gridViewAdapter
+            }
+        }
+
         binding.recentGrid.adapter=gridViewAdapter
         return binding.root
     }

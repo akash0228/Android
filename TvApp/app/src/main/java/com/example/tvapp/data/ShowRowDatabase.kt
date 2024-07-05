@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.tvapp.ShowRow
+import com.example.tvapp.ShowRowTypeConverter
 
 @Database(entities = arrayOf(ShowRow::class), version = 1)
+@TypeConverters(ShowRowTypeConverter::class)
 abstract class ShowRowDatabase: RoomDatabase() {
     abstract fun showRowDao():ShowRowDao
 

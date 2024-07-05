@@ -12,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(){
     var flag=0
+    var initialFlag=false
 
     lateinit var allTab:CardView
     lateinit var recentTab:CardView
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var watchListFragment:WatchListFragment
     lateinit var searchFragment:SearchFragment
     lateinit var detailFragment:DetailFragment
+    lateinit var showRowViewModel:ShowRowViewModel
 
     val mainInterface =object : MainInterface{
         override fun onKeyUp(tab: Int) {
@@ -82,6 +85,13 @@ class MainActivity : AppCompatActivity(){
         watchListFragment=WatchListFragment(mainInterface)
         searchFragment=SearchFragment(mainInterface)
 
+        showRowViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
+        )[ShowRowViewModel::class.java]
+        //insertInitialData
+        if (initialFlag)
+        insertInitialdata()
 
         //insert data
 
@@ -332,8 +342,11 @@ class MainActivity : AppCompatActivity(){
         //second row
         val listShow2= listOf(Show("Movie 1","This is Movie 1 Description","Romance",2020,"1h 30m"),Show("Movie 2","This is Movie 2 Description","Romance",2021,"1h 35m"),Show("Movie 3","This is Movie 3 Description","Action",2005,"1h 40m"),Show("Movie 4","This is Movie 4 Description","Thriller",2023,"2h 30m"),Show("Movie 5","This is Movie 5 Description","Horror",2018,"1h 23m"))
 
-//        val showRow1=ShowRow("Top Picks",listShow1)
+        val showRow1=ShowRow("Top Picks",listShow1)
+        val showRow2=ShowRow("Trending",listShow2)
 
+        showRowViewModel.insert(showRow1)
+        showRowViewModel.insert(showRow2)
     }
 
     interface MainInterface{

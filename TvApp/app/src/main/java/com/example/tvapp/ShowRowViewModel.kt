@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.tvapp.data.ShowRowRepository
 import kotlinx.coroutines.launch
 
-class ShowRowViewModel(application: Application,val showRowRepo: ShowRowRepository) : AndroidViewModel(application) {
+class ShowRowViewModel(application: Application) : AndroidViewModel(application) {
+    private val showRowRepo=ShowRowRepository(application)
+
     private val _showRowList = MutableLiveData<List<ShowRow>>()
     var showRowList: LiveData<List<ShowRow>> =showRowRepo.showRowList
 

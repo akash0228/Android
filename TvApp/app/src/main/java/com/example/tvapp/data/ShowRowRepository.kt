@@ -1,11 +1,14 @@
 package com.example.tvapp.data
 
+import android.content.Context
 import com.example.tvapp.ShowRow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 
-class ShowRowRepository(private val showRowDatabase: ShowRowDatabase) {
+class ShowRowRepository(context: Context) {
+
+    private val showRowDatabase=ShowRowDatabase.getInstance(context)
     private val showRowDao=showRowDatabase.showRowDao()
     val showRowList=showRowDao.getAllShowRow()
 
