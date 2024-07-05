@@ -55,8 +55,6 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
             parentInterface.onKeyCenter(show)
         }
 
-
-
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -106,6 +104,7 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
         fun onKeyRight(childPos:Int,rowPosition: Int)
         fun onKeyLeft(childPos:Int,rowPosition: Int)
         fun onKeyCenter(childPos:Int,rowPosition: Int)
+
 
     }
 

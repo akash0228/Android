@@ -103,7 +103,16 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
             holder.focus(childPos)
             lastRow=rowPos
             lastCol=childPos
+
+            changePreview(listShowRow.get(rowPos).listShow.get(childPos))
+
         }
+    }
+
+    fun changePreview(show: Show){
+        binding.posterTitle.text=show.title
+        binding.posterCategory.text="${show.category} * ${show.year} * ${show.Duration}"
+        binding.posterDescription.text=show.Description
     }
 
     fun restoreFocus(){
@@ -118,6 +127,7 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
         fun onKeyRight(childPos:Int,rowPosition: Int)
 
         fun onKeyCenter(show: Show)
+
     }
 
 }

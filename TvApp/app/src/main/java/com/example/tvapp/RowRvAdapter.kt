@@ -37,6 +37,7 @@ class RowRvAdapter(val listShow: List<Show>): RecyclerView.Adapter<RowRvAdapter.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.idTvCard.text=listShow.get(position).title
         Log.d("TAG", "onBindViewHolder: RowRv")
+
         holder.itemView.setOnKeyListener { v, keyCode, event ->
             if (event.action== KeyEvent.ACTION_DOWN){
                 when(keyCode){

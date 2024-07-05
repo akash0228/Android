@@ -90,8 +90,9 @@ class MainActivity : AppCompatActivity(){
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
         )[ShowRowViewModel::class.java]
         //insertInitialData
-        if (initialFlag)
-        insertInitialdata()
+        if (initialFlag) {
+            insertInitialdata()
+        }
 
         //insert data
 
