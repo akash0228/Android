@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.compose.runtime.key
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class WatchGvAdapter(context: Context, listShow: List<Show>, val parentInterface:WatchListFragment.WatchListFragInterface) : ArrayAdapter<Show>(context, 0, listShow) {
 
@@ -21,6 +24,13 @@ class WatchGvAdapter(context: Context, listShow: List<Show>, val parentInterface
         val show: Show? =getItem(position)
         val idIVCard= listItemView?.findViewById<ImageView>(R.id.idIVCard)
         val idTVCard= listItemView?.findViewById<TextView>(R.id.idTVCard)
+
+        if (idIVCard!=null){
+            Glide.with(context)
+                .load(show?.imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(idIVCard);
+        }
 
         if (idTVCard != null) {
             idTVCard.text= show!!.title
@@ -50,14 +60,30 @@ class WatchGvAdapter(context: Context, listShow: List<Show>, val parentInterface
                             //send focus to mainRv
                             parentInterface.onKeyCenter(position)
                         }
+                        KeyEvent.KEYCODE_BACK ->{
+                            parentInterface.onKeyBack(position)
+                        }
                     }
                 }
                 true
             }
+
+//            listItemView.setOnFocusChangeListener { v, hasFocus ->
+//                if (hasFocus){
+//                    animateScale(v,true)
+//                }
+//                else{
+//                    animateScale(v,false)
+//                }
+//            }
         }
 
         return listItemView!!
     }
 
+    private fun animateScale(view: View, scaleUp: Boolean) {
+        val scale = if (scaleUp) 1.1f else 1.0f
+        view.animate().scaleX(scale).scaleY(scale).setDuration(200).start()
+    }
 
 }

@@ -15,12 +15,7 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
 
     val mainRvInterface=object : MainRvInterface{
         override fun onKeyUp(childPos:Int,rowPosition: Int) {
-            if (rowPosition==0){
                 parentInterface.onKeyUp(childPos,rowPosition)
-            }
-            else{
-                parentInterface.onKeyUp(childPos,rowPosition)
-            }
         }
 
         override fun onKeyDown(childPos:Int,rowPosition: Int) {
@@ -52,7 +47,7 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
 
         override fun onKeyCenter(childPos:Int,rowPosition: Int) {
             val show=listShowRow.get(rowPosition).listShow.get(childPos)
-            parentInterface.onKeyCenter(show)
+            parentInterface.onKeyCenter(show,rowPosition,childPos)
         }
 
     }
@@ -82,10 +77,12 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
         var rowRvAdapter=RowRvAdapter(listShowRow.get(position).listShow)
         rowRvAdapter.setParentInterface(mainRvInterface)
         rowRvAdapter.rowPosition=position
+
         holder.rowRv.adapter=rowRvAdapter
         holder.rowRv.layoutManager=LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL,false)
         holder.rowRv.setHasFixedSize(true)
         holder.posterTitle.text=listShowRow.get(position).header
+
         Log.d("TAG", "onBindViewHolder: mainRv")
         holder.rowRv.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus){
@@ -104,7 +101,6 @@ class MainRvAdapter(val listShowRow:List<ShowRow>,parentInterface: AllFragment.A
         fun onKeyRight(childPos:Int,rowPosition: Int)
         fun onKeyLeft(childPos:Int,rowPosition: Int)
         fun onKeyCenter(childPos:Int,rowPosition: Int)
-
 
     }
 

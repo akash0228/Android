@@ -1,11 +1,13 @@
 package com.example.tvapp
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.size
 import androidx.lifecycle.ViewModelProvider
 import com.example.tvapp.databinding.FragmentRecentBinding
@@ -55,7 +57,11 @@ class RecentFragment(val parentInterface: MainActivity.MainInterface) : Fragment
         }
 
         override fun onKeyCenter(pos: Int) {
-            parentInterface.onKeyCenter(listRecentShow.get(pos),1)
+            parentInterface.onKeyCenter(listRecentShow.get(pos),1,0, pos)
+        }
+
+        override fun onKeyBack(pos: Int) {
+            parentInterface.OnKeyBack(1)
         }
     }
 
@@ -66,15 +72,16 @@ class RecentFragment(val parentInterface: MainActivity.MainInterface) : Fragment
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ShowRowViewModel::class.java)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentRecentBinding.inflate(inflater,container,false)
 
-        showRowViewModel.getAllshowRows().observe(viewLifecycleOwner) { showRows ->
-            if (showRows.size>0){
-                listRecentShow = showRows.get(0).listShow
+        showRowViewModel.getRecentShows().observe(viewLifecycleOwner) { shows ->
+            if (shows.size>0){
+                listRecentShow = shows
                 gridViewAdapter = RecentGvAdapter(requireContext(),listRecentShow, recentFragInterface)
                 binding.recentGrid.adapter = gridViewAdapter
             }
@@ -105,6 +112,7 @@ class RecentFragment(val parentInterface: MainActivity.MainInterface) : Fragment
         fun onKeyRight(pos: Int)
         fun onKeyLeft(pos: Int)
         fun onKeyCenter(pos: Int)
+        fun onKeyBack(pos: Int)
     }
 
 }

@@ -6,8 +6,7 @@
     tools:context=".PlayerFragment">
 
 <androidx.media3.ui.PlayerView
-    android:focusableInTouchMode="true"
-    android:focusable="true"
+
     android:id="@+id/playerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>

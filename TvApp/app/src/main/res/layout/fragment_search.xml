@@ -10,8 +10,9 @@
         android:layout_height="match_parent"
         android:numColumns="4"
         android:verticalSpacing="20dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="35dp"
+        android:padding="20dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="20dp"
         android:id="@+id/searchGrid"/>
 
 </FrameLayout>

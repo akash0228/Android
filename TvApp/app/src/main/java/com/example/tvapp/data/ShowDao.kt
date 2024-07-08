@@ -6,18 +6,18 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.tvapp.ShowRow
+import com.example.tvapp.Show
 
 @Dao
-interface ShowRowDao {
+interface ShowDao {
 
     @Insert
-    fun insert(showRow:ShowRow)
+    fun insert(show:Show)
     @Update
-    fun update(showRow: ShowRow)
+    fun update(show: Show)
     @Delete
-    fun delete(showRow: ShowRow)
+    fun delete(show: Show)
 
-    @Query("SELECT * FROM show_row_table")
-    fun getAllShowRow(): LiveData<List<ShowRow>>
+    @Query("SELECT * FROM show_table")
+    fun getAllShow(): LiveData<List<Show>>
 }

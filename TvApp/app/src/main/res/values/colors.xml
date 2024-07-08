@@ -3,6 +3,6 @@
 
     <color name="pressed_color">#44F6D148</color>
     <color name="focused_color">#7F87F1FF</color>
-    <color name="focused_color_show">#0087F1FF</color>
+    <color name="focused_color_show">#3C3F40</color>
 
 </resources>

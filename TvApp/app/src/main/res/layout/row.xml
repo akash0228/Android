@@ -1,28 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- item_row.xml -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rowRv"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/posterTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_height="25dp"
         android:text="Top Picks"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rowRv" />
+        app:layout_constraintTop_toTopOf="parent"
+       />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rowRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        tools:listitem="@layout/item_card"
+        app:layout_constraintTop_toBottomOf="@+id/posterTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clipToPadding="false"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,19 +1,18 @@
 package com.example.tvapp
 
-import android.inputmethodservice.Keyboard.Row
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridView
 import androidx.annotation.RequiresApi
 import androidx.core.view.size
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.tvapp.databinding.FragmentAllBinding
 
 class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
@@ -34,12 +33,18 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
             }
             else{
                 focus(rowPosition-1,0)
+                binding.allRv.smoothScrollToPosition(rowPosition-1)
+
             }
         }
 
         override fun onKeyDown(childPos: Int, rowPosition: Int) {
             Log.d("KEY", "onKeyDown: ${rowPosition}")
             focus(0,rowPosition+1)
+
+            if (rowPosition+1 < mainAdapter.getItemCount()) {
+                binding.allRv.smoothScrollToPosition(rowPosition+1)
+            }
         }
 
         override fun onKeyLeft(childPos: Int, rowPosition: Int) {
@@ -50,8 +55,8 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
             focus(childPos+1,rowPosition)
         }
 
-        override fun onKeyCenter(show: Show) {
-            parentInterface.onKeyCenter(show,0)
+        override fun onKeyCenter(show: Show,rowPosition: Int, childPos: Int) {
+            parentInterface.onKeyCenter(show,0,rowPosition, childPos)
         }
 
     }
@@ -69,6 +74,7 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
         outState.putInt("lastCol",lastCol)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,10 +83,9 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
         binding=FragmentAllBinding.inflate(inflater,container,false)
         showRowViewModel=ViewModelProvider(this,ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(ShowRowViewModel::class.java)
 
-        showRowViewModel.getAllshowRows().observe(viewLifecycleOwner) { showRows ->
-            listShowRow = showRows
-            mainAdapter = MainRvAdapter(listShowRow, allFragInterface)
-            binding.allRv.adapter = mainAdapter
+        showRowViewModel.showList.observe(viewLifecycleOwner) { showRows ->
+            Log.d("ALL", "onCreateView: ${showRows.size}")
+           loadData(showRows)
         }
 
         binding.allRv.layoutManager= LinearLayoutManager(requireContext())
@@ -109,10 +114,36 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun loadData(list:List<Show>){
+//        val list=showRowViewModel.getAllShowRow().value
+        val hashMap=HashMap<String,ArrayList<Show>>()
+        list.forEach { show ->
+            val listShow: ArrayList<Show> = hashMap.getOrPut(show.Header) { ArrayList() }
+            listShow.add(show)
+        }
+
+        val showRows= hashMap.entries.map { (header, listShow) ->
+            ShowRow(header, listShow)
+        }
+
+
+        if (showRows!=null) {
+            listShowRow = showRows
+            mainAdapter = MainRvAdapter(listShowRow, allFragInterface)
+            binding.allRv.adapter = mainAdapter
+        }
+    }
+
     fun changePreview(show: Show){
         binding.posterTitle.text=show.title
         binding.posterCategory.text="${show.category} * ${show.year} * ${show.Duration}"
         binding.posterDescription.text=show.Description
+        val url=show.imageUrl
+        Glide.with(requireContext())
+            .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(binding.mainPoster);
     }
 
     fun restoreFocus(){
@@ -125,8 +156,7 @@ class AllFragment(parentInterface: MainActivity.MainInterface) : Fragment() {
         fun onKeyDown(childPos:Int,rowPosition: Int)
         fun onKeyLeft(childPos:Int,rowPosition: Int)
         fun onKeyRight(childPos:Int,rowPosition: Int)
-
-        fun onKeyCenter(show: Show)
+        fun onKeyCenter(show: Show, rowPosition: Int, childPos: Int)
 
     }
 

@@ -3,16 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".RecentFragment">
 
    <GridView
-       android:layout_width="wrap_content"
+       android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:numColumns="4"
-       android:verticalSpacing="20dp"
-       android:paddingTop="10dp"
-       android:paddingLeft="35dp"
+       android:numColumns="5"
+       android:verticalSpacing="10dp"
+       android:padding="10dp"
        android:focusable="true"
+       android:clipToPadding="false"
+       tools:listitem="@layout/item_card"
        android:focusableInTouchMode="true"
        android:id="@+id/recentGrid"/>
 
