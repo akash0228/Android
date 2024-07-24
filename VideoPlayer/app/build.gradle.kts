@@ -46,9 +46,9 @@ kapt {
 }
 
 dependencies {
-    val lifecycle_version = "2.8.1"
     val arch_version = "2.2.0"
     val room_version = "2.6.1"
+    val lifecycle_version = "2.8.1"
 
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version")

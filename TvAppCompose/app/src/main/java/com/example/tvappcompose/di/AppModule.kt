@@ -1,8 +1,8 @@
-package com.example.videoplayer.di
+package com.example.tvappcompose.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.videoplayer.data.database.VideoDatabase
+import com.example.tvapp.data.ShowDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,9 +15,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(application: Application):VideoDatabase{
+    fun provideDatabase(application: Application): ShowDatabase {
         return Room.databaseBuilder(application.applicationContext,
-            VideoDatabase::class.java,"video_database").build()
+            ShowDatabase::class.java,"myshow2_database").build()
     }
 
 }

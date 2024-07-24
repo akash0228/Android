@@ -59,10 +59,8 @@ class ShowRowViewModel(application: Application) : AndroidViewModel(application)
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun getAllShowRow(): LiveData<List<ShowRow>> {
-        Log.d("ALL", "getAllShowRow: ")
-        //re create actegories
         val hashMap=HashMap<String,ArrayList<Show>>()
-        showList.value?.forEach { show ->
+        showRepo.showList.value?.forEach { show ->
             val listShow: ArrayList<Show> = hashMap.getOrPut(show.Header) { ArrayList() }
             listShow.add(show)
         }
@@ -72,8 +70,6 @@ class ShowRowViewModel(application: Application) : AndroidViewModel(application)
         }
 
         _showRowList.postValue(showRows)
-        Log.d("ALL", "getAllShowRow: ${showRowList.value?.size}")
-
 
         return showRowList
     }

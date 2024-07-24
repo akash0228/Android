@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         //FLOW
 //        val job1=GlobalScope.launch { //if this coroutine gets terminated or cancelled then our consumer will also die and flow get cancelled
 //            val data: Flow<Int> =producer()
+
             //CONSUMER 1
 //            data
 //                .onStart {
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 //                .collect{ Log.d("CHEEZYFLOWS-1",it.toString()) }
 
             //Operators of flowage:mine CHEEZYFLOWS
-            //1.terminal operator - Starts the flow these are suspend function we need ternimal operator to start flow
+            //1.terminal operator - Starts the flow these are suspend function,we need ternimal operator to start flow
 //               collect
 //               first - gives first element
             //   toList - returns list of all element
